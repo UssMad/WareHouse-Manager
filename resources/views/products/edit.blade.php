@@ -1,0 +1,4 @@
+<x-app-layout>
+    <div class="mb-8"><a href="{{ route('products.show', $product) }}" class="text-sm font-semibold text-cyan-700">← Retour au produit</a><p class="page-kicker mt-6">Référentiel / modification</p><h1 class="page-title mt-2">{{ $product->name }}</h1></div>
+    <form method="POST" action="{{ route('products.update', $product) }}" class="form-shell max-w-4xl">@csrf @method('PUT')<div class="form-rail"><p class="form-eyebrow">Référence {{ $product->reference }}</p><p class="mt-2 text-lg font-semibold">Mettre à jour les informations produit.</p><p class="mt-2 text-sm leading-6 text-slate-300">Le niveau de stock reste géré depuis la page détail, par une entrée ou une sortie tracée.</p></div>@include('products.partials.form', ['submitLabel' => 'Enregistrer les modifications', 'product' => $product])</form>
+</x-app-layout>

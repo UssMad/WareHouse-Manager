@@ -1,0 +1,20 @@
+<div class="form-section">
+    <p class="form-section-title">Identification</p>
+    <p class="form-section-note">Ces informations vous permettent de retrouver le produit sans hésitation.</p>
+    <div class="mt-5 grid gap-5 sm:grid-cols-2">
+        <div class="sm:col-span-2"><label class="form-label" for="name">Nom du produit</label><input class="form-input @error('name') form-input-invalid @enderror" id="name" name="name" value="{{ old('name', $product->name ?? '') }}" placeholder="Ex. Scanner code-barres Zebra" required autofocus>@error('name')<p class="form-error">{{ $message }}</p>@enderror</div>
+        <div><label class="form-label" for="reference">Référence interne</label><input class="form-input font-mono @error('reference') form-input-invalid @enderror" id="reference" name="reference" value="{{ old('reference', $product->reference ?? '') }}" placeholder="EX. SCN-001" required><p class="form-hint">Unique dans votre inventaire.</p>@error('reference')<p class="form-error">{{ $message }}</p>@enderror</div>
+        <div><label class="form-label" for="category_id">Catégorie</label><select class="form-input @error('category_id') form-input-invalid @enderror" id="category_id" name="category_id" required><option value="">Choisir une catégorie</option>@foreach($categories as $category)<option value="{{ $category->id }}" @selected(old('category_id', $product->category_id ?? '') == $category->id)>{{ $category->name }}</option>@endforeach</select>@error('category_id')<p class="form-error">{{ $message }}</p>@enderror</div>
+    </div>
+</div>
+<div class="form-section">
+    <p class="form-section-title">Niveau de stock</p>
+    <p class="form-section-note">Le seuil permet d’identifier automatiquement les produits à surveiller.</p>
+    <div class="mt-5 grid gap-5 sm:grid-cols-{{ isset($product) ? '2' : '3' }}">
+        <div><label class="form-label" for="unit_price">Prix unitaire (DH)</label><input class="form-input @error('unit_price') form-input-invalid @enderror" id="unit_price" name="unit_price" type="number" min="0" step="0.01" value="{{ old('unit_price', $product->unit_price ?? 0) }}" required>@error('unit_price')<p class="form-error">{{ $message }}</p>@enderror</div>
+        @if (!isset($product))<div><label class="form-label" for="stock_quantity">Quantité initiale</label><input class="form-input @error('stock_quantity') form-input-invalid @enderror" id="stock_quantity" name="stock_quantity" type="number" min="0" value="{{ old('stock_quantity', 0) }}" required><p class="form-hint">Une entrée initiale sera ajoutée à l’historique.</p>@error('stock_quantity')<p class="form-error">{{ $message }}</p>@enderror</div>@endif
+        <div><label class="form-label" for="alert_threshold">Seuil d’alerte</label><input class="form-input @error('alert_threshold') form-input-invalid @enderror" id="alert_threshold" name="alert_threshold" type="number" min="0" value="{{ old('alert_threshold', $product->alert_threshold ?? 5) }}" required><p class="form-hint">Alerte quand le stock atteint ce niveau.</p>@error('alert_threshold')<p class="form-error">{{ $message }}</p>@enderror</div>
+    </div>
+</div>
+<div class="form-section"><label class="form-label" for="description">Description <span class="font-normal text-slate-400">(facultatif)</span></label><textarea class="form-input @error('description') form-input-invalid @enderror" id="description" name="description" rows="4" placeholder="Caractéristiques, emplacement, précisions…">{{ old('description', $product->description ?? '') }}</textarea>@error('description')<p class="form-error">{{ $message }}</p>@enderror</div>
+<div class="form-actionbar"><p class="text-xs text-slate-500"><span class="font-semibold text-red-600">*</span> Champs obligatoires</p><div class="flex items-center gap-3"><a href="{{ isset($product) ? route('products.show', $product) : route('products.index') }}" class="btn-secondary">Annuler</a><button class="btn-primary" {{ $categories->isEmpty() ? 'disabled' : '' }}>{{ $submitLabel }}</button></div></div>
