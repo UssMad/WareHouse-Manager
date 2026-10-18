@@ -1,0 +1,5 @@
+<x-app-layout>
+    <div class="mb-8"><a href="{{ route('products.index') }}" class="text-sm font-semibold text-cyan-700">← Retour aux produits</a><p class="page-kicker mt-6">Nouveau référentiel</p><h1 class="page-title mt-2">Ajouter un produit</h1></div>
+    @if ($categories->isEmpty())<div class="mb-6 border-l-4 border-amber-500 bg-amber-50 p-4 text-sm text-amber-800">Créez d’abord une catégorie avant d’ajouter un produit. <a class="font-semibold underline" href="{{ route('categories.index') }}">Gérer les catégories</a></div>@endif
+    <form method="POST" action="{{ route('products.store') }}" class="form-shell max-w-4xl">@csrf<div class="form-rail"><p class="form-eyebrow">Nouvelle référence</p><p class="mt-2 text-lg font-semibold">Un produit, une référence, un stock fiable.</p><p class="mt-2 max-w-xl text-sm leading-6 text-slate-300">La quantité initiale sera conservée dans le journal des mouvements afin de garder une traçabilité complète.</p></div>@include('products.partials.form', ['submitLabel' => 'Ajouter au stock'])</form>
+</x-app-layout>
